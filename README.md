@@ -13,6 +13,7 @@ This is a modern web application built with React and Vite, leveraging a variety
 - [Previewing Production Build](#previewing-production-build)
 - [Linting](#linting)
 - [Dependencies](#dependencies)
+- [Links](#links)
 - [License](#license)
 
 ## Features
@@ -31,7 +32,7 @@ This is a modern web application built with React and Vite, leveraging a variety
 First, clone the repository and install the dependencies:
 
 ```bash
-git clone https://github.com/yourusername/web-challenge.git
+git clone https://github.com/tiekungsos/Web-Challenge.git
 cd web-challenge
 npm install
 ```
@@ -89,10 +90,13 @@ Here are the major dependencies used in this project:
 
 For a complete list of dependencies and their versions, please refer to the `package.json` file.
 
+## Links
+
+- **GitHub Repository**: [Web-Challenge](https://github.com/tiekungsos/Web-Challenge)
+- **Live Website**: [web-challenge.netlify.app](https://web-challenge.netlify.app/)
+
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more information.
 
 ---
-
-This README provides a comprehensive overview of your project, including how to set it up, develop, build, and more. Make sure to adjust any paths, URLs, or sections as needed.

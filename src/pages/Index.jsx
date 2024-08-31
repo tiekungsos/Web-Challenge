@@ -108,6 +108,41 @@ const Index = () => {
       const parsedData = JSON.parse(data);
       setStoredData(parsedData);
       setFilteredData(parsedData);
+    } else {
+      const data = [
+        {
+          id : 1,
+          title : "Title",
+          description : "Description",
+          dataSubjectType : "employees",
+          department : "human-resources",
+        },
+        {
+          id : 2,
+          title : "Title",
+          description : "Description",
+          dataSubjectType : "faculty-staff",
+          department : "it-is",
+        },
+        {
+          id : 3,
+          title : "Title",
+          description : "Description",
+          dataSubjectType : "faculty-staff",
+          department : "admission",
+        },
+        {
+          id : 1,
+          title : "Title",
+          description : "Description",
+          dataSubjectType : "students",
+          department : "admission",
+        }
+      ];
+
+      setStoredData(data);
+      setFilteredData(data);
+
     }
   }, []);
 
@@ -130,6 +165,8 @@ const Index = () => {
     } else {
       updatedData = [...storedData, { ...currentData, id: Date.now() }];
     }
+    // console.log('updatedData',updatedData);
+    
     setStoredData(updatedData);
     setFilteredData(updatedData);
     localStorage.setItem("userData", JSON.stringify(updatedData));

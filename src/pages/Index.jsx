@@ -198,18 +198,18 @@ const Index = () => {
   };
 
   const applyFilters = (appliedFilters) => {
-    const filteredResults = storedData.filter((item) => {
-      const departmentMatch = Object.entries(appliedFilters.department).every(
-        ([key, value]) => {
-          return !value || departmentMap[item.department] === key;
-        }
-      );
-      const dataSubjectTypeMatch = Object.entries(
-        appliedFilters.dataSubjectType
-      ).every(([key, value]) => {
+    const filteredResults = storedData.filter(item => {
+      const departmentMatch = Object.entries(appliedFilters.department).every(([key, value]) => {
+        return !value || departmentMap[item.department] === key;
+      });
+      const dataSubjectTypeMatch = Object.entries(appliedFilters.dataSubjectType).every(([key, value]) => {
         return !value || dataSubjectTypeMap[item.dataSubjectType] === key;
       });
-      return departmentMatch && dataSubjectTypeMatch;
+      const titleMatch = appliedFilters.titleSearch
+        ? item.title.toLowerCase().includes(appliedFilters.titleSearch.toLowerCase()) ||
+          new RegExp(appliedFilters.titleSearch, 'i').test(item.title)
+        : true;
+      return departmentMatch && dataSubjectTypeMatch && titleMatch;
     });
     setFilteredData(filteredResults);
   };
@@ -355,15 +355,17 @@ const Index = () => {
         </div>
 
         <Sheet open={open} onOpenChange={setOpen}>
-          <SheetContent side="right" className="w-full sm:w-[540px]">
-            <SheetHeader>
-              <SheetTitle>
-                {isEditing ? "Edit Data" : "Add New Data"}
-              </SheetTitle>
-            </SheetHeader>
-            <form onSubmit={handleSubmit} className="space-y-4 mt-4">
+          <SheetContent side="right" className="w-full sm:w-[540px] p-0">
+            <div className="flex justify-between items-center p-4 border-b">
+              <SheetTitle className="text-lg font-semibold">New Data</SheetTitle>
+              <div className="flex space-x-2">
+                <Button variant="ghost" onClick={() => setOpen(false)}>Cancel</Button>
+                <Button type="submit" form="newDataForm" className="bg-green-600 hover:bg-green-700 text-white">Save</Button>
+              </div>
+            </div>
+            <form id="newDataForm" onSubmit={handleSubmit} className="space-y-4 p-4">
               <div>
-                <Label htmlFor="title">Title</Label>
+              <Label htmlFor="title" className="text-sm font-medium text-gray-700">Title</Label>
                 <Input
                   id="title"
                   name="title"
@@ -373,17 +375,19 @@ const Index = () => {
                 />
               </div>
               <div>
-                <Label htmlFor="description">Description</Label>
-                <Input
+              <Label htmlFor="description" className="text-sm font-medium text-gray-700">Description</Label>
+              <textarea
                   id="description"
                   name="description"
                   value={currentData.description}
                   onChange={handleInputChange}
                   required
+                  className="mt-1 w-full rounded-md border border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500"
+                  rows="3"
                 />
               </div>
               <div>
-                <Label htmlFor="department">Department</Label>
+              <Label htmlFor="department" className="text-sm font-medium text-gray-700">Department</Label>
                 <Select
                   name="department"
                   onValueChange={(value) =>
@@ -392,7 +396,7 @@ const Index = () => {
                   value={currentData.department}
                   required
                 >
-                  <SelectTrigger>
+            <SelectTrigger className="mt-1 w-full">
                     <SelectValue placeholder="Select Department" />
                   </SelectTrigger>
                   <SelectContent>
@@ -406,7 +410,7 @@ const Index = () => {
                 </Select>
               </div>
               <div>
-                <Label htmlFor="dataSubjectType">Data Subject Type</Label>
+              <Label htmlFor="dataSubjectType" className="text-sm font-medium text-gray-700">Data Subject Type (Optional)</Label>
                 <Select
                   name="dataSubjectType"
                   onValueChange={(value) =>
@@ -415,7 +419,7 @@ const Index = () => {
                   value={currentData.dataSubjectType}
                   required
                 >
-                  <SelectTrigger>
+                  <SelectTrigger className="mt-1 w-full">
                     <SelectValue placeholder="Select Data Subject Type" />
                   </SelectTrigger>
                   <SelectContent>
@@ -425,9 +429,7 @@ const Index = () => {
                   </SelectContent>
                 </Select>
               </div>
-              <Button type="submit" className="w-full">
-                {isEditing ? "Update Data" : "Add Data"}
-              </Button>
+         
             </form>
           </SheetContent>
         </Sheet>
